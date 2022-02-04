@@ -1,0 +1,40 @@
+{
+  "name": "@do-while-for-each/fs",
+  "description": "Working with the File System",
+  "version": "1.0.0",
+  "main": "./dist/cjs/index.js",
+  "types": "./dist/types/index.d.ts",
+  "homepage": "https://github.com/dwfe/fs",
+  "bugs": "https://github.com/dwfe/fs/issues",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:dwfe/fs.git"
+  },
+  "keywords": [
+    "file system",
+    "fs"
+  ],
+  "author": "Do|While|For|Each",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "rimraf ./dist && tsc -b ./src/tsconfig.json",
+    "types": "tsc -b ./config/tsconfig.types.json",
+    "version": "npm run build && npm run types",
+    "postversion": "git push",
+    "deploy": "npm version patch && npm publish"
+  },
+  "dependencies": {
+
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.22"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
