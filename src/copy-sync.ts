@@ -1,15 +1,17 @@
-import {copyFileSync, existsSync, readdirSync} from 'fs';
 import {logErr, logWarn} from '@do-while-for-each/log-node';
-import {ensureDir, isDirectory} from './directory';
+import {copyFileSync, existsSync, readdirSync} from 'fs';
 import {basename, extname, join} from 'path';
+import {ensureDir, isDirectory} from './directory';
 
 export function copySync(
   src: string, // absolute path From where copy
   dst: string, // absolute path To copy
   allowedToCopyFilter?: (srcFileName: string) => boolean
 ): void {
-  if (!existsSync(src))
-    return;
+  if (!existsSync(src)) {
+    err(`Source file "${src}" doesn't exist`);
+    throw '';
+  }
   if (isDirectory(src)) {
     if (!ensureDir(dst)) {
       err(`Can't copy src dir "${src}" to dst file "${dst}"`);
@@ -28,25 +30,24 @@ export function copySync(
   } else {
     const dstExt = extname(dst);
     if (extname(src) !== dstExt) {
-      // 1. dstExt exists
-      //   а. path exists
-      //      i. isDirectory - do nothing
-      //     ii. isFile - show diffExtMessage
-      //   б. path not exists - show diffExtMessage
-      // 2. dstExt not exists
-      //   а. path exists
-      //      i. isDirectory - do nothing
-      //     ii. isFile - show diffExtMessage
-      //   б. path not exists - create directory - show a message about creating a directory
-      const diffExtMessage = () => warn(`Different extensions for src file "${src}" and dst file "${dst}"`);
+      /**
+       * 1. dstExt exists
+       *   a. path exists
+       *      i. isDirectory - do nothing
+       *     ii. isFile - show diffExtMessage
+       *   b. path not exists - show diffExtMessage
+       * 2. dstExt not exists
+       *   a. path exists
+       *      i. isDirectory - do nothing
+       *     ii. isFile - show diffExtMessage
+       *   b. path not exists - create directory - show a message about creating a directory
+       */
+      const diffExtMessage = () => warn(`Different *.ext for src file "${src}" and dst file "${dst}"`);
       if (dstExt) {
-        if (existsSync(dst)) {
-          if (!isDirectory(dst))
-            diffExtMessage();
-        } else
+        if (!existsSync(dst) || !isDirectory(dst))
           diffExtMessage();
       } else {
-        if (!ensureDir(dst, () => warn(`I will assume that dst "${dst}" is a directory`)))
+        if (!ensureDir(dst, () => warn(`Created a dir, assuming that dst "${dst}" is a dir`)))
           diffExtMessage();
       }
     }
