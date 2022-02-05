@@ -9,7 +9,7 @@ export function copySync(
   allowedToCopyFilter?: (srcFileName: string) => boolean
 ): void {
   if (!existsSync(src)) {
-    err(`Source file "${src}" doesn't exist`);
+    err(`Source "${src}" doesn't exist`);
     return;
   }
   if (isDirectory(src)) {

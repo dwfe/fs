@@ -6,6 +6,19 @@ export function isDirectory(path: string): boolean {
   return lstatSync(path).isDirectory();
 }
 
+export function isDirectoryOk(path: string, needToLog?: boolean): boolean {
+  const title = 'Directory check:';
+  if (!existsSync(path)) {
+    needToLog && logErr(title, `Path "${path}" doesn't exist`);
+    return false;
+  }
+  if (!isDirectory(path)) {
+    needToLog && logErr(title, `Path "${path}" is not a dir`);
+    return false;
+  }
+  return true;
+}
+
 /**
  * Make sure the directory exists.
  * @Returns:
@@ -20,15 +33,9 @@ export function ensureDirExists(path: string, afterCreatingDir?: () => void): bo
   return true;
 }
 
-export function cleanDir(path: string): void {
-  if (!existsSync(path)) {
-    logErr('Clean dir:', `Path "${path}" doesn't exist`);
-    return;
-  }
-  if (!isDirectory(path)) {
-    logErr('Clean dir:', `Path "${path}" is not a dir`);
-    return;
-  }
+export function cleanDir(path: string, needToLog?: boolean): boolean {
+  if (!isDirectoryOk(path, needToLog))
+    return false;
   readdirSync(path)
     .map(fileName => join(path, fileName))
     .forEach(filePath =>
@@ -37,4 +44,5 @@ export function cleanDir(path: string): void {
         force: true
       })
     );
+  return true;
 }
