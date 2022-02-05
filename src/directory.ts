@@ -1,4 +1,5 @@
 import {existsSync, lstatSync, mkdirSync, readdirSync, rmSync} from 'fs';
+import {logErr} from '@do-while-for-each/log-node';
 import {join} from 'path';
 
 export function isDirectory(path: string): boolean {
@@ -6,22 +7,28 @@ export function isDirectory(path: string): boolean {
 }
 
 /**
- * Returns:
- *   false - path exists and it is a File;
- *   true  - path exists and it is a Directory.
- *
+ * Make sure the directory exists.
+ * @Returns:
+ *   true  - directory exists;
+ *   false - path exists and it is a file;
  */
-export function ensureDir(path: string, onCreateDir?: () => void): boolean {
+export function ensureDirExists(path: string, afterCreatingDir?: () => void): boolean {
   if (existsSync(path))
     return isDirectory(path);
   mkdirSync(path);
-  onCreateDir?.();
+  afterCreatingDir?.();
   return true;
 }
 
 export function cleanDir(path: string): void {
-  if (!existsSync(path) || !isDirectory(path))
+  if (!existsSync(path)) {
+    logErr('Clean dir:', `Path "${path}" doesn't exist`);
     return;
+  }
+  if (!isDirectory(path)) {
+    logErr('Clean dir:', `Path "${path}" is not a dir`);
+    return;
+  }
   readdirSync(path)
     .map(fileName => join(path, fileName))
     .forEach(filePath =>

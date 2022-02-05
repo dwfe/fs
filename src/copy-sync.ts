@@ -1,7 +1,7 @@
 import {logErr, logWarn} from '@do-while-for-each/log-node';
 import {copyFileSync, existsSync, readdirSync} from 'fs';
 import {basename, extname, join} from 'path';
-import {ensureDir, isDirectory} from './directory';
+import {ensureDirExists, isDirectory} from './directory';
 
 export function copySync(
   src: string, // absolute path From where copy
@@ -10,12 +10,12 @@ export function copySync(
 ): void {
   if (!existsSync(src)) {
     err(`Source file "${src}" doesn't exist`);
-    throw '';
+    return;
   }
   if (isDirectory(src)) {
-    if (!ensureDir(dst)) {
+    if (!ensureDirExists(dst)) {
       err(`Can't copy src dir "${src}" to dst file "${dst}"`);
-      throw '';
+      return;
     }
     let fileNames = readdirSync(src);
     if (allowedToCopyFilter)
@@ -47,7 +47,7 @@ export function copySync(
         if (!existsSync(dst) || !isDirectory(dst))
           diffExtMessage();
       } else {
-        if (!ensureDir(dst, () => warn(`Created a dir, assuming that dst "${dst}" is a dir`)))
+        if (!ensureDirExists(dst, () => warn(`Created a dir, assuming that dst "${dst}" is a dir`)))
           diffExtMessage();
       }
     }
