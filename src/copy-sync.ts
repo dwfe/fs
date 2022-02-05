@@ -1,7 +1,7 @@
-import {copyFileSync, existsSync, mkdirSync, readdirSync} from 'fs';
+import {copyFileSync, existsSync, readdirSync} from 'fs';
 import {logErr, logWarn} from '@do-while-for-each/log-node';
+import {ensureDir, isDirectory} from './directory';
 import {basename, extname, join} from 'path';
-import {isDirectory} from './directory';
 
 export function copySync(
   src: string, // absolute path From where copy
@@ -11,9 +11,7 @@ export function copySync(
   if (!existsSync(src))
     return;
   if (isDirectory(src)) {
-    if (!existsSync(dst))
-      mkdirSync(dst);
-    if (!isDirectory(dst)) {
+    if (!ensureDir(dst)) {
       err(`Can't copy src dir "${src}" to dst file "${dst}"`);
       throw '';
     }
@@ -30,11 +28,27 @@ export function copySync(
   } else {
     const dstExt = extname(dst);
     if (extname(src) !== dstExt) {
-      if (!dstExt && !existsSync(dst)) {
-        warn(`I will assume that dst "${dst}" is a directory`);
-        mkdirSync(dst);
-      } else
-        warn(`Different extensions for src file "${src}" and dst file "${dst}"`);
+      // 1. dstExt exists
+      //   а. path exists
+      //      i. isDirectory - do nothing
+      //     ii. isFile - show diffExtMessage
+      //   б. path not exists - show diffExtMessage
+      // 2. dstExt not exists
+      //   а. path exists
+      //      i. isDirectory - do nothing
+      //     ii. isFile - show diffExtMessage
+      //   б. path not exists - create directory - show a message about creating a directory
+      const diffExtMessage = () => warn(`Different extensions for src file "${src}" and dst file "${dst}"`);
+      if (dstExt) {
+        if (existsSync(dst)) {
+          if (!isDirectory(dst))
+            diffExtMessage();
+        } else
+          diffExtMessage();
+      } else {
+        if (!ensureDir(dst, () => warn(`I will assume that dst "${dst}" is a directory`)))
+          diffExtMessage();
+      }
     }
     if (existsSync(dst) && isDirectory(dst))
       dst = join(dst, basename(src));
