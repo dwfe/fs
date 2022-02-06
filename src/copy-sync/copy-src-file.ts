@@ -11,7 +11,7 @@ export function copySrcFile(src: string, dst: string, opt: ICopyOptions) {
     if (isDirectory(dst))
       dst = join(dst, basename(src)); // now dst points to the target file in the existing directory
   } else {
-    const dstDirPath = dirname(dst);    // dst points to the target file,
+    const dstDirPath = dirname(dst);    // here it is assumed that dst points to the target file,
     if (!ensureDirExists(dstDirPath)) { // make sure that the target directory exists
       err(`Can't copy src file "${src}" to dst file "${dst}", because dst dir "${dstDirPath}" is a file ¯\\_(ツ)_/¯`, true);
       throw '';

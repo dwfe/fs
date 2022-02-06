@@ -16,7 +16,7 @@ export function copySrcDir(src: string, dst: string, opt: ICopyOptions) {
   const dirNameDst = basename(dst);
   if (dirNameSrc === dirNameDst) {
     count = 1; // copied src dir itself
-    copyLog(dirNameSrc, dirNameDst, src, dst, showLog);
+    copyLog(src, dst, showLog);
   }
   readdirSync(src).forEach(fileName => {
     const iSrc = join(src, fileName);
