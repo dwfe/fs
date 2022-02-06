@@ -1,5 +1,5 @@
-export {TFileProcessCmd} from './contract';
-export {copySync, ICopySyncOptions} from './copy-sync';
+export {TFileProcessCmd, ICopyOptions} from './contract';
+export {copySync} from './copy-sync/copy-sync';
 export {
   isDirectory,
   isDirectoryOk,

@@ -1,8 +1,8 @@
 import {logErr} from '@do-while-for-each/log-node';
+import {copySync} from './copy-sync/copy-sync';
 import {TFileProcessCmd} from './contract';
 import {removeSync} from './remove-sync';
 import {cleanDir} from './directory';
-import {copySync} from './copy-sync';
 import {moveSync} from './move-sync';
 
 export class FileProcess {
