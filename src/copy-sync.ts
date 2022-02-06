@@ -15,7 +15,7 @@ export function copySync(
   opt: ICopySyncOptions = {}
 ): number // count of copied files
 {
-  paramsValidation(src, dst);
+  validateParams(src, dst);
   const fileNameSrc = basename(src);
   const {showLog, skipSystemFiles, allowedToCopyFilter} = opt;
 
@@ -25,13 +25,12 @@ export function copySync(
       throw '';
     }
     /**
-     * src is a existed dir -> dst is a existed dir
+     * src is an existing dir -> dst is an existing dir
      */
     let count = 0;
-    const fileNameDst = basename(dst);
-    if (fileNameSrc === fileNameDst) {
+    if (fileNameSrc === basename(dst)) {
       count = 1; // copied src dir itself
-      showLog && copyLog(fileNameSrc, fileNameDst, dirname(src), dirname(dst));
+      showLog && copyLog(fileNameSrc, basename(dst), dirname(src), dirname(dst));
     }
     let fileNames = readdirSync(src);
     if (allowedToCopyFilter)
@@ -45,8 +44,8 @@ export function copySync(
         count += copySync(iSrc, iDst, opt);
         return;
       } else if (isDirectoryOk(iDst)) {
-        showLog && err(`Source is a file "${iSrc}", but dst is an existing dir with exactly the same name "${fileName}"`);
-        return; // skip copying the current file
+        showLog && err(`Source is a file "${iSrc}", but dst is an existing dir with exactly the same name "${fileName}". Copy skipped`);
+        return;
       }
       showLog && copyLog(fileName, fileName, src, dst);
       copyFileSync(iSrc, iDst); // here it is guaranteed that the existing src file is copied to the dst file
@@ -96,7 +95,7 @@ export function copySync(
   return 1;
 }
 
-function paramsValidation(src: string, dst: string): void {
+function validateParams(src: string, dst: string): void {
   if (!src || !isAbsolute(src)) {
     err(`The path to the source must be absolute: "${src}"`);
     throw '';
