@@ -16,11 +16,11 @@ export function copySync(
 ): number // count of copied files
 {
   const {showLog, skipSystemFiles, allowedToCopyFilter} = opt;
-  if (!isAbsolute(src)) {
+  if (!src || !isAbsolute(src)) {
     showLog && err(`The path to the source must be absolute: "${src}"`);
     return 0;
   }
-  if (!isAbsolute(dst)) {
+  if (!dst || !isAbsolute(dst)) {
     showLog && err(`The path to the destination must be absolute: "${dst}"`);
     return 0;
   }

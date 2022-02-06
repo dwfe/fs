@@ -1,5 +1,5 @@
 import {existsSync, lstatSync, mkdirSync, readdirSync, rmSync} from 'fs';
-import {logErr} from '@do-while-for-each/log-node';
+import {logErr, logSuccess} from '@do-while-for-each/log-node';
 import {basename, dirname, join} from 'path';
 
 export function isDirectory(path: string): boolean {
@@ -64,5 +64,6 @@ export function cleanDir(path: string, showLog?: boolean): boolean {
         force: true
       })
     );
+  showLog && logSuccess(`Cleaned dir:`, path);
   return true;
 }
