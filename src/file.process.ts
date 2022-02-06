@@ -1,9 +1,9 @@
 import {logErr} from '@do-while-for-each/log-node';
-import {copySync} from './copy-sync/copy-sync';
 import {TFileProcessCmd} from './contract';
-import {removeSync} from './remove-sync';
+import {remove} from './remove/remove';
 import {cleanDir} from './directory';
-import {moveSync} from './move-sync';
+import {copy} from './copy/copy';
+import {move} from './move';
 
 export class FileProcess {
 
@@ -14,16 +14,16 @@ export class FileProcess {
           cleanDir(src, showLog);
           return;
         case 'move':
-          moveSync(src, dest as string, {showLog});
+          move(src, dest as string, {showLog});
           return;
         case 'copy':
-          copySync(src, dest as string, {showLog});
+          copy(src, dest as string, {showLog});
           return;
         case 'remove':
-          removeSync(src, showLog);
+          remove(src, showLog);
           return;
         default:
-          logErr('FileProcess:', `Unknown command type '${cmd}'`);
+          logErr('FileProcess:', `Unknown command type "${cmd}"`);
           throw '';
       }
     })

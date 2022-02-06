@@ -1,6 +1,6 @@
 import {basename, dirname, extname, join} from 'path';
 import {existsSync} from 'fs';
-import {copyFileToFileSync} from './copy-file-to-file-sync';
+import {copyFileToFile} from './copy-file-to-file';
 import {ensureDirExists, isDirectory} from '../directory';
 import {ICopyOptions} from '../contract';
 import {err, warn} from './log';
@@ -17,7 +17,7 @@ export function copySrcFile(src: string, dst: string, opt: ICopyOptions) {
       throw '';
     }
   }
-  return copyFileToFileSync(src, dst, opt);
+  return copyFileToFile(src, dst, opt);
 }
 
 function handleExt(src: string, dst: string, {showLog}: ICopyOptions): void {

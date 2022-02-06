@@ -1,12 +1,12 @@
 import {logAction, logOption} from '@do-while-for-each/log-node';
-import {copySync} from './copy-sync/copy-sync';
-import {removeSync} from './remove-sync';
 import {ICopyOptions} from './contract';
+import {remove} from './remove/remove';
+import {copy} from './copy/copy';
 
-export function moveSync(src: string, dst: string, opt: ICopyOptions = {}): void {
+export function move(src: string, dst: string, opt: ICopyOptions = {}): void {
   const {showLog} = opt;
-  copySync(src, dst, opt);
-  removeSync(src, showLog);
+  copy(src, dst, opt);
+  remove(src, showLog);
   moveLog(src, dst, showLog);
 }
 

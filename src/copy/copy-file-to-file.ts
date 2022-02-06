@@ -3,7 +3,7 @@ import {basename} from 'path';
 import {ICopyOptions} from '../contract';
 import {copyLog, skipLog} from './log';
 
-export function copyFileToFileSync(srcFilePath: string, dstFilePath: string, {showLog, skipSystemFiles, allowedToCopyFilter}: ICopyOptions): number {
+export function copyFileToFile(srcFilePath: string, dstFilePath: string, {showLog, skipSystemFiles, allowedToCopyFilter}: ICopyOptions): number {
   const srcFileName = basename(srcFilePath);
 
   if (skipSystemFiles && skipSystemFilesFilter(srcFileName)) {

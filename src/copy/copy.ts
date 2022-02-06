@@ -13,7 +13,7 @@ import {err} from './log';
  * @param opt
  * @Returns count of copied files
  */
-export function copySync(src: string, dst: string, opt: ICopyOptions = {}): number {
+export function copy(src: string, dst: string, opt: ICopyOptions = {}): number {
   validateParams(src, dst);
   return isDirectory(src)
     ? copySrcDir(src, dst, opt)
