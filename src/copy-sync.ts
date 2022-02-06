@@ -17,32 +17,38 @@ export function copySync(
 {
   const {showLog, skipSystemFiles, allowedToCopyFilter} = opt;
   if (!src || !isAbsolute(src)) {
-    showLog && err(`The path to the source must be absolute: "${src}"`);
-    return 0;
+    err(`The path to the source must be absolute: "${src}"`);
+    throw '';
   }
   if (!dst || !isAbsolute(dst)) {
-    showLog && err(`The path to the destination must be absolute: "${dst}"`);
-    return 0;
+    err(`The path to the destination must be absolute: "${dst}"`);
+    throw '';
   }
   if (!existsSync(src)) {
-    showLog && err(`Source doesn't exist: "${src}"`);
-    return 0;
+    err(`Source doesn't exist: "${src}"`);
+    throw '';
   }
+  const fileNameSrc = basename(src);
 
   if (isDirectory(src)) {
     if (!ensureDirExists(dst)) {
-      showLog && err(`Can't copy src dir "${src}" to dst file "${dst}"`);
-      return 0;
+      err(`Can't copy src dir "${src}" to dst file "${dst}"`);
+      throw '';
     }
     /**
-     * src is a dir -> dst is a dir
+     * src is a existed dir -> dst is a existed dir
      */
+    let count = 0;
+    const fileNameDst = basename(dst);
+    if (fileNameSrc === fileNameDst) {
+      count = 1; // copied src dir itself
+      showLog && copyLog(fileNameSrc, fileNameDst, dirname(src), dirname(dst));
+    }
     let fileNames = readdirSync(src);
     if (allowedToCopyFilter)
       fileNames = fileNames.filter((fileName) => allowedToCopyFilter(fileName, src, dst));
     if (skipSystemFiles)
       fileNames = fileNames.filter((fileName) => skipSystemFilesFilter(fileName));
-    let count = 0;
     fileNames.forEach(fileName => {
       const iSrc = join(src, fileName);
       const iDst = join(dst, fileName);
@@ -64,7 +70,6 @@ export function copySync(
    * src as file -> dst as ?
    */
   const dstExt = extname(dst);
-  const fileNameSrc = basename(src);
   if (extname(src) !== dstExt) {
     /**
      * 1. dstExt exists
@@ -93,8 +98,8 @@ export function copySync(
   } else {
     const targetDirPath = dirname(dst);
     if (!ensureDirExists(targetDirPath)) {
-      showLog && err(`Can't copy src file "${src}" to dst file "${dst}", because target dir "${targetDirPath}" is a file ¯\\_(ツ)_/¯`);
-      return 0;
+      err(`Can't copy src file "${src}" to dst file "${dst}", because target dir "${targetDirPath}" is a file ¯\\_(ツ)_/¯`);
+      throw '';
     }
   }
   showLog && copyLog(fileNameSrc, basename(dst), dirname(src), dirname(dst));
@@ -114,10 +119,10 @@ function warn(message: string): void {
 
 function copyLog(fileNameSrc: string, fileNameDst: string, srcDirPath: string, dstDirPath: string): void {
   logAction('Copy:');
-  logOption('file', fileNameSrc === fileNameDst ? fileNameSrc : `${fileNameSrc} -> ${fileNameDst}`)
+  logOption('name', fileNameSrc === fileNameDst ? fileNameSrc : `${fileNameSrc} -> ${fileNameDst}`)
   logOption('src', srcDirPath);
   logOption('dst', dstDirPath);
-  console.log(' ')
+  console.log(' ');
 }
 
 //endregion

@@ -1,5 +1,5 @@
-import {existsSync, lstatSync, rmSync} from 'fs';
 import {logErr, logSuccess} from '@do-while-for-each/log-node';
+import {existsSync, lstatSync, rmSync} from 'fs';
 
 export function removeSync(path: string, showLog?: boolean): boolean {
   if (!existsSync(path)) {
@@ -8,8 +8,12 @@ export function removeSync(path: string, showLog?: boolean): boolean {
   }
   rmSync(path, {
     recursive: lstatSync(path).isDirectory(),
-    force: true
-  })
+    force: false
+  });
+  if (existsSync(path)) {
+    logErr('Remove:', `Unsuccessful attempt to delete "${path}". Perhaps the file is read-only`);
+    throw '';
+  }
   showLog && logSuccess('Removed:', path);
   return true;
 }

@@ -1,7 +1,8 @@
-import {TFileProcessCmd} from './contract'
+import {logErr} from '@do-while-for-each/log-node';
+import {TFileProcessCmd} from './contract';
+import {removeSync} from './remove-sync';
 import {cleanDir} from './directory';
 import {copySync} from './copy-sync';
-import {removeSync} from './common';
 import {moveSync} from './move-sync';
 
 export class FileProcess {
@@ -20,10 +21,10 @@ export class FileProcess {
           return;
         case 'remove':
           removeSync(src, showLog);
-          console.log(`> delete path '${src}' \r\n`)
           return;
         default:
-          throw new Error(`unknown command type '${cmd}'`);
+          logErr('FileProcess:', `Unknown command type '${cmd}'`);
+          throw '';
       }
     })
   }
