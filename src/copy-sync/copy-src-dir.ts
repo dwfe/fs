@@ -1,8 +1,8 @@
-import {copyFileSync, readdirSync} from 'fs';
+import {readdirSync} from 'fs';
 import {basename, join} from 'path';
 import {ensureDirExists, isDirectory, isDirectoryOk} from '../directory';
+import {copyFileToFileSync} from './copy-file-to-file-sync';
 import {ICopyOptions} from '../contract';
-import {copySync} from './copy-sync';
 import {copyLog, err} from './log';
 
 export function copySrcDir(src: string, dst: string, opt: ICopyOptions) {
@@ -29,15 +29,13 @@ export function copySrcDir(src: string, dst: string, opt: ICopyOptions) {
     const iSrc = join(src, fileName);
     const iDst = join(dst, fileName);
     if (isDirectory(iSrc)) {
-      count += copySync(iSrc, iDst, opt);
+      count += copySrcDir(iSrc, iDst, opt);
       return;
     } else if (isDirectoryOk(iDst)) {
       showLog && err(`Source is a file "${iSrc}", but dst is an existing dir with exactly the same name "${fileName}". Copy skipped`);
       return;
     }
-    showLog && copyLog(fileName, fileName, src, dst);
-    copyFileSync(iSrc, iDst); // here it is guaranteed that the existing src file is copied to the dst file
-    count++;
+    count += copyFileToFileSync(iSrc, iDst, opt);
   });
   return count;
 }

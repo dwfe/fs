@@ -1,15 +1,15 @@
 import {basename, dirname, extname, join} from 'path';
-import {copyFileSync, existsSync} from 'fs';
+import {existsSync} from 'fs';
+import {copyFileToFileSync} from './copy-file-to-file-sync';
 import {ensureDirExists, isDirectory} from '../directory';
-import {copyLog, err, warn} from './log';
 import {ICopyOptions} from '../contract';
+import {err, warn} from './log';
 
-export function copySrcFile(src: string, dst: string, {showLog}: ICopyOptions) {
-  const fileNameSrc = basename(src);
-  handleExt(src, dst, showLog);
+export function copySrcFile(src: string, dst: string, opt: ICopyOptions) {
+  handleExt(src, dst, opt);
   if (existsSync(dst)) {
     if (isDirectory(dst))
-      dst = join(dst, fileNameSrc); // now dst points to the target file in the existing directory
+      dst = join(dst, basename(src)); // now dst points to the target file in the existing directory
   } else {
     const dstDirPath = dirname(dst);    // dst points to the target file,
     if (!ensureDirExists(dstDirPath)) { // check the existence of the target directory
@@ -17,12 +17,10 @@ export function copySrcFile(src: string, dst: string, {showLog}: ICopyOptions) {
       throw '';
     }
   }
-  showLog && copyLog(fileNameSrc, basename(dst), src, dst);
-  copyFileSync(src, dst);
-  return 1;
+  return copyFileToFileSync(src, dst, opt);
 }
 
-function handleExt(src: string, dst: string, showLog?: boolean): void {
+function handleExt(src: string, dst: string, {showLog}: ICopyOptions): void {
   const dstExt = extname(dst);
   if (extname(src) !== dstExt) {
     /**
