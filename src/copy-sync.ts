@@ -35,7 +35,7 @@ export function copySync(
       return 0;
     }
     /**
-     * src as dir -> dst as dir
+     * src is a dir -> dst is a dir
      */
     let fileNames = readdirSync(src);
     if (allowedToCopyFilter)
