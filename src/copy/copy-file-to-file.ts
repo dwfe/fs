@@ -24,8 +24,8 @@ export function skipSystemFilesFilter(srcFileName: string): boolean {
   switch (srcFileName) {
     case 'Thumbs.db':
     case '.DS_Store':
-      return false;
-    default:
       return true;
+    default:
+      return false;
   }
 }
