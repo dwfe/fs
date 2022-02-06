@@ -4,6 +4,7 @@ import {copySrcFile} from './copy-src-file';
 import {copySrcDir} from './copy-src-dir';
 import {ICopyOptions} from '../contract';
 import {isDirectory} from '../directory';
+import {getStats} from '../common';
 import {err} from './log';
 
 /**
@@ -30,6 +31,15 @@ function validateParams(src: string, dst: string): void {
   }
   if (!existsSync(src)) {
     err(`src doesn't exist: "${src}"`, true);
+    throw '';
+  }
+  const srcStats = getStats(src);
+  if (srcStats.isSocket()) {
+    err(`Can't copy a socket file: ${src}`, true);
+    throw '';
+  }
+  if (srcStats.isFIFO()) {
+    err(`Can't copy a first-in-first-out (FIFO) pipe: ${src}`, true);
     throw '';
   }
 }
