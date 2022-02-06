@@ -19,15 +19,15 @@ export function removeSync(path: string, showLog?: boolean): boolean {
 
 function validateParams(path: string): void {
   if (!path || !isAbsolute(path)) {
-    err(`The path must be absolute: "${path}"`);
+    err(`The path must be absolute: "${path}"`, true);
     throw '';
   }
   if (!existsSync(path)) {
-    err(`Path doesn't exist: "${path}"`);
+    err(`Path doesn't exist: "${path}"`, true);
     throw '';
   }
 }
 
-function err(message: string): void {
-  logErr('Remove:', message);
+function err(message: string, showLog?: boolean): void {
+  showLog && logErr('Remove:', message);
 }

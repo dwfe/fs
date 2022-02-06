@@ -21,15 +21,15 @@ export function copySync(src: string, dst: string, opt: ICopyOptions = {}): numb
 
 function validateParams(src: string, dst: string): void {
   if (!src || !isAbsolute(src)) {
-    err(`The path to src must be absolute: "${src}"`);
+    err(`The path to src must be absolute: "${src}"`, true);
     throw '';
   }
   if (!dst || !isAbsolute(dst)) {
-    err(`The path to dst must be absolute: "${dst}"`);
+    err(`The path to dst must be absolute: "${dst}"`, true);
     throw '';
   }
   if (!existsSync(src)) {
-    err(`src doesn't exist: "${src}"`);
+    err(`src doesn't exist: "${src}"`, true);
     throw '';
   }
 }

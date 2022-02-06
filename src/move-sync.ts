@@ -7,10 +7,12 @@ export function moveSync(src: string, dst: string, opt: ICopyOptions = {}): void
   const {showLog} = opt;
   copySync(src, dst, opt);
   removeSync(src, showLog);
-  showLog && moveLog(src, dst);
+  moveLog(src, dst, showLog);
 }
 
-function moveLog(src: string, dst: string): void {
+function moveLog(src: string, dst: string, showLog?: boolean): void {
+  if (!showLog)
+    return;
   logAction('Moved:');
   logOption('src', src);
   logOption('dst', dst);

@@ -12,8 +12,8 @@ export function copySrcFile(src: string, dst: string, opt: ICopyOptions) {
       dst = join(dst, basename(src)); // now dst points to the target file in the existing directory
   } else {
     const dstDirPath = dirname(dst);    // dst points to the target file,
-    if (!ensureDirExists(dstDirPath)) { // check the existence of the target directory
-      err(`Can't copy src file "${src}" to dst file "${dst}", because dst dir "${dstDirPath}" is a file ¯\\_(ツ)_/¯`);
+    if (!ensureDirExists(dstDirPath)) { // make sure that the target directory exists
+      err(`Can't copy src file "${src}" to dst file "${dst}", because dst dir "${dstDirPath}" is a file ¯\\_(ツ)_/¯`, true);
       throw '';
     }
   }
@@ -35,12 +35,12 @@ function handleExt(src: string, dst: string, {showLog}: ICopyOptions): void {
      *     ii. isFile - show diffExtMessage
      *   b. path not exists - create directory - show a message about creating a directory
      */
-    const diffExtMessage = () => showLog && warn(`Different *.ext for src file "${src}" and dst file "${dst}"`);
+    const diffExtMessage = () => warn(`Different *.ext for src file "${src}" and dst file "${dst}"`, showLog);
     if (dstExt) {
       if (!existsSync(dst) || !isDirectory(dst))
         diffExtMessage();
     } else {
-      if (!ensureDirExists(dst, () => showLog && warn(`Created a dir, assuming that dst "${dst}" is a dir`)))
+      if (!ensureDirExists(dst, () => warn(`Created a dir, assuming that dst "${dst}" is a dir`, showLog)))
         diffExtMessage();
     }
   }
