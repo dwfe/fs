@@ -15,20 +15,9 @@ export function copySync(
   opt: ICopySyncOptions = {}
 ): number // count of copied files
 {
-  const {showLog, skipSystemFiles, allowedToCopyFilter} = opt;
-  if (!src || !isAbsolute(src)) {
-    err(`The path to the source must be absolute: "${src}"`);
-    throw '';
-  }
-  if (!dst || !isAbsolute(dst)) {
-    err(`The path to the destination must be absolute: "${dst}"`);
-    throw '';
-  }
-  if (!existsSync(src)) {
-    err(`Source doesn't exist: "${src}"`);
-    throw '';
-  }
+  paramsValidation(src, dst);
   const fileNameSrc = basename(src);
+  const {showLog, skipSystemFiles, allowedToCopyFilter} = opt;
 
   if (isDirectory(src)) {
     if (!ensureDirExists(dst)) {
@@ -107,6 +96,22 @@ export function copySync(
   return 1;
 }
 
+function paramsValidation(src: string, dst: string): void {
+  if (!src || !isAbsolute(src)) {
+    err(`The path to the source must be absolute: "${src}"`);
+    throw '';
+  }
+  if (!dst || !isAbsolute(dst)) {
+    err(`The path to the destination must be absolute: "${dst}"`);
+    throw '';
+  }
+  if (!existsSync(src)) {
+    err(`Source doesn't exist: "${src}"`);
+    throw '';
+  }
+}
+
+
 //region Log
 
 function err(message: string): void {
@@ -136,6 +141,5 @@ function skipSystemFilesFilter(nextSrcFileName: string): boolean {
       return true;
   }
 }
-
 
 
