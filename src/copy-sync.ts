@@ -1,6 +1,6 @@
 import {logAction, logErr, logOption, logWarn} from '@do-while-for-each/log-node';
+import {basename, dirname, extname, isAbsolute, join} from 'path';
 import {copyFileSync, existsSync, readdirSync} from 'fs';
-import {basename, dirname, extname, join} from 'path';
 import {ensureDirExists, isDirectory, isDirectoryOk} from './directory';
 
 export interface ICopySyncOptions {
@@ -16,6 +16,14 @@ export function copySync(
 ): number // count of copied files
 {
   const {showLog, skipSystemFiles, allowedToCopyFilter} = opt;
+  if (!isAbsolute(src)) {
+    showLog && err(`The path to the source must be absolute: "${src}"`);
+    return 0;
+  }
+  if (!isAbsolute(dst)) {
+    showLog && err(`The path to the destination must be absolute: "${dst}"`);
+    return 0;
+  }
   if (!existsSync(src)) {
     showLog && err(`Source doesn't exist: "${src}"`);
     return 0;
