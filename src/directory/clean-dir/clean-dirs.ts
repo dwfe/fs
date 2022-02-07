@@ -4,7 +4,7 @@ import {cleanDir} from './clean-dir';
 import {action, err} from './log';
 
 export function cleanDirs(dirPaths: string[], opt: ICleanDirOpt = {}): void {
-  isParamsValid(dirPaths, opt);
+  validateParams(dirPaths, opt);
   const {showLog} = opt;
   const startTime = +new Date();
   dirPaths.forEach(path => {
@@ -14,7 +14,7 @@ export function cleanDirs(dirPaths: string[], opt: ICleanDirOpt = {}): void {
   action(`Spent time: ${(+new Date() - startTime) / 1000} sec.`, showLog);
 }
 
-function isParamsValid(dirPaths: string[], {fileNamesToRemove}: ICleanDirOpt): void {
+function validateParams(dirPaths: string[], {fileNamesToRemove}: ICleanDirOpt): void {
   if (!dirPaths || dirPaths.length === 0) {
     err(`Empty list of directory paths`, true);
     throw '';
