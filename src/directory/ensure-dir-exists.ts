@@ -1,5 +1,5 @@
-import {IEnsureDirExistsOpt} from '../contract';
 import {existsSync} from 'fs';
+import {IEnsureDirExistsOpt} from '../contract';
 import {mkdirCyclical} from './mkdir-cyclical';
 import {isDirectory} from '../common';
 

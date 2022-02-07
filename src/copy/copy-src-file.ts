@@ -1,10 +1,10 @@
 import {basename, dirname, extname, join} from 'path';
 import {existsSync} from 'fs';
 import {copyFileToFile} from './copy-file-to-file';
+import {ensureDirExists} from '../directory';
 import {isDirectory} from '../common';
 import {ICopyOpt} from '../contract';
 import {err, warn} from './log';
-import {ensureDirExists} from '../directory/ensure-dir-exists';
 
 export function copySrcFile(src: string, dst: string, opt: ICopyOpt): number {
   handleExt(src, dst, opt);

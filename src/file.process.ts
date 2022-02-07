@@ -1,8 +1,8 @@
 import {logErr} from '@do-while-for-each/log-node';
-import {removeForce} from './remove/remove-force';
-import {cleanDir} from './clean-dir/clean-dir';
 import {TFileProcessCmd} from './contract';
-import {copy} from './copy/copy';
+import {removeForce} from './remove';
+import {cleanDir} from './clean-dir';
+import {copy} from './copy';
 import {move} from './move';
 
 export class FileProcess {

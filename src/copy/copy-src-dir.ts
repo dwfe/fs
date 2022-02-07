@@ -2,9 +2,9 @@ import {basename, join} from 'path';
 import {readdirSync} from 'fs';
 import {isDirectory, isDirectoryOk} from '../common';
 import {copyFileToFile} from './copy-file-to-file';
+import {ensureDirExists} from '../directory';
 import {ICopyOpt} from '../contract';
 import {copyLog, err} from './log';
-import {ensureDirExists} from '../directory/ensure-dir-exists';
 
 export function copySrcDir(src: string, dst: string, opt: ICopyOpt) {
   const {showLog} = opt;

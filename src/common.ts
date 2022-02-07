@@ -1,7 +1,7 @@
 import {chmodSync, Dirent, existsSync, lstatSync, readdirSync, Stats} from 'fs';
 import {logErr} from '@do-while-for-each/log-node';
-import {ICommonOpt} from './contract';
 import {isAbsolute, join} from 'path';
+import {ICommonOpt} from './contract';
 
 export function getStats(path: string): Stats {
   return lstatSync(path);

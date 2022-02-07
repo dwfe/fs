@@ -1,7 +1,7 @@
 import {logAction, logOption} from '@do-while-for-each/log-node';
+import {removeForce} from './remove';
 import {ICopyOpt} from './contract';
-import {copy} from './copy/copy';
-import {removeForce} from './remove/remove-force';
+import {copy} from './copy';
 
 export function move(src: string, dst: string, opt: ICopyOpt = {}): void {
   const {showLog} = opt;

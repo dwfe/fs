@@ -1,12 +1,11 @@
-export {copy} from './copy/copy';
-export {chmodAllCyclical} from './common';
-export {TFileProcessCmd, ICopyOpt} from './contract';
+export {cleanDir, cleanDirs} from './clean-dir';
+export {copy} from './copy';
+export {ensureDirExists, mkdirCyclical} from './directory';
+export {removeForce, removeSync} from './remove';
+export {getStats, isDirectory, isDirectoryOk, chmodAllCyclical} from './common';
+export {TFileProcessCmd, ICommonOpt, ICopyOpt, ICleanDirOpt, IEnsureDirExistsOpt, IRemoveOptions} from './contract';
 export {FileJson} from './file.json';
 export {FileProcess} from './file.process';
 export {move} from './move';
-export {cleanDir} from './clean-dir/clean-dir';
-export {isDirectoryOk} from './common';
-export {ensureDirExists} from './directory/ensure-dir-exists';
-export {mkdirCyclical} from './directory/mkdir-cyclical';
 
 

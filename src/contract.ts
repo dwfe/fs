@@ -18,10 +18,10 @@ export interface ICleanDirOpt extends ICommonOpt {
   allowedToRemoveFilter?: (nextFileName: string, path: string) => boolean;
 }
 
-export interface IRemoveOptions extends ICommonOpt {
-  force?: boolean;
-}
-
 export interface IEnsureDirExistsOpt extends ICommonOpt {
   afterCreatingDir?: () => void;
+}
+
+export interface IRemoveOptions extends ICommonOpt {
+  force?: boolean;
 }

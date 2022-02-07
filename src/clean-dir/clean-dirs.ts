@@ -3,7 +3,7 @@ import {isDirectoryOk} from '../common';
 import {cleanDir} from './clean-dir';
 import {action, err} from './log';
 
-export function cleanDirJob(dirPaths: string[], opt: ICleanDirOpt = {}): void {
+export function cleanDirs(dirPaths: string[], opt: ICleanDirOpt = {}): void {
   isParamsValid(dirPaths, opt);
   const {showLog} = opt;
   const startTime = +new Date();
@@ -15,7 +15,7 @@ export function cleanDirJob(dirPaths: string[], opt: ICleanDirOpt = {}): void {
 }
 
 function isParamsValid(dirPaths: string[], {fileNamesToRemove}: ICleanDirOpt): void {
-  if (!dirPaths || !dirPaths.length) {
+  if (!dirPaths || dirPaths.length === 0) {
     err(`Empty list of directory paths`, true);
     throw '';
   }
