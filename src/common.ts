@@ -47,11 +47,11 @@ export function isDirectoryOk(path: string, {stats, showLog}: ICommonOpt = {}): 
  *   0o740 = "rwx" for owner; "r--" for group; "---" for others
  *   0o600 = "rw-" for owner; "---" for group; "---" for others
  */
-export function chmodAllCyclical(path: string, mode: number, stats?: Stats | Dirent): void {
+export function chmodCyclical(path: string, mode: number, stats?: Stats | Dirent): void {
   chmodSync(path, mode);
   if (isDirectory(path, stats)) {
     readdirSync(path, {withFileTypes: true}).forEach(stats => {
-      chmodAllCyclical(join(path, stats.name), mode, stats);
+      chmodCyclical(join(path, stats.name), mode, stats);
     });
   }
 }
