@@ -13,14 +13,13 @@ import {err} from './log';
  * @Returns count of copied files
  */
 export function copy(src: string, dst: string, opt: ICopyOpt = {}): number {
-  opt.srcStats = getStats(src);
-  validateParams(src, dst, opt);
-  return isDirectory(src, opt.srcStats)
+  validateParams(src, dst);
+  return isDirectory(src)
     ? copySrcDir(src, dst, opt)
     : copySrcFile(src, dst, opt);
 }
 
-function validateParams(src: string, dst: string, {srcStats}: ICopyOpt): void {
+function validateParams(src: string, dst: string): void {
   if (!src || !isAbsolute(src)) {
     err(`The path to src must be absolute: "${src}"`, true);
     throw '';
@@ -33,6 +32,7 @@ function validateParams(src: string, dst: string, {srcStats}: ICopyOpt): void {
     err(`src doesn't exist: "${src}"`, true);
     throw '';
   }
+  const srcStats = getStats(src);
   if (srcStats?.isSocket()) {
     err(`Can't copy a socket file: ${src}`, true);
     throw '';

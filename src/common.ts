@@ -24,6 +24,25 @@ export function isDirectoryOk(path: string, {stats, showLog}: ICommonOpt = {}): 
   return true;
 }
 
+/**
+ * Numbers in the octal number system and their corresponding access rights:
+ *   0 = ---
+ *   1 = --x
+ *   2 = -w-
+ *   3 = -wx
+ *   4 = r--
+ *   5 = r-x
+ *   6 = rw-
+ *   7 = rwx
+ *
+ * The position of the octal number and its corresponding access group:
+ *   First = owner
+ *   Second = group
+ *   Third = others
+ *
+ * E.g.:
+ *   0o740 = {rwx} for owner; {r--} for group; {---} for others
+ */
 export function chmodAllCyclical(path: string, mode: number, stats?: Stats | Dirent): void {
   chmodSync(path, mode);
   if (isDirectory(path, stats)) {

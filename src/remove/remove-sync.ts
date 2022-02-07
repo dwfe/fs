@@ -5,6 +5,6 @@ import {isDirectory} from '../common';
 export function removeSync(path: string, {force, stats}: IRemoveOptions): void {
   rmSync(path, {
     recursive: isDirectory(path, stats),
-    force
+    force: !!force
   });
 }
