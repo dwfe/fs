@@ -1,7 +1,7 @@
 import {readdirSync} from 'fs';
 import {join} from 'path';
-import {ICleanDirOpt} from '../contract';
-import {removeForce} from '../remove';
+import {ICleanDirOpt} from '../../contract';
+import {removeForce} from '../../remove';
 
 export function cleanDir(path: string, {showLog, fileNamesToRemove, allowedToRemoveFilter}: ICleanDirOpt = {}): boolean {
   readdirSync(path, {withFileTypes: true}).forEach(stats => {

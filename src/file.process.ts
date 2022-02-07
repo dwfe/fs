@@ -1,7 +1,7 @@
 import {logErr} from '@do-while-for-each/log-node';
 import {TFileProcessCmd} from './contract';
+import {cleanDir} from './directory';
 import {removeForce} from './remove';
-import {cleanDir} from './clean-dir';
 import {copy} from './copy';
 import {move} from './move';
 
