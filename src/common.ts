@@ -25,6 +25,9 @@ export function isDirectoryOk(path: string, {stats, showLog}: ICommonOpt = {}): 
 }
 
 /**
+ * Change permissions of a file,
+ * https://nodejs.org/api/fs.html#file-modes
+ *
  * Numbers in the octal number system and their corresponding access rights:
  *   0 = ---
  *   1 = --x
@@ -41,13 +44,14 @@ export function isDirectoryOk(path: string, {stats, showLog}: ICommonOpt = {}): 
  *   Third = others
  *
  * E.g.:
- *   0o740 = {rwx} for owner; {r--} for group; {---} for others
+ *   0o740 = "rwx" for owner; "r--" for group; "---" for others
+ *   0o600 = "rw-" for owner; "---" for group; "---" for others
  */
 export function chmodAllCyclical(path: string, mode: number, stats?: Stats | Dirent): void {
   chmodSync(path, mode);
   if (isDirectory(path, stats)) {
-    readdirSync(path, {withFileTypes: true}).forEach(dirent => {
-      chmodAllCyclical(join(path, dirent.name), mode, dirent);
+    readdirSync(path, {withFileTypes: true}).forEach(stats => {
+      chmodAllCyclical(join(path, stats.name), mode, stats);
     });
   }
 }

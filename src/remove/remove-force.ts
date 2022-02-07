@@ -7,7 +7,7 @@ import {err, success} from './log';
 export function removeForce(path: string, {stats, showLog}: IRemoveOptions) {
   removeSync(path, {force: true, stats});
   if (existsSync(path)) {
-    const mode = 0o600; // https://nodejs.org/api/fs.html#file-modes
+    const mode = 0o600;
     chmodAllCyclical(path, mode);
     removeSync(path, {force: true});
     if (existsSync(path)) {
