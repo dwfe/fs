@@ -1,6 +1,6 @@
 export {cleanDir, cleanDirs} from './clean-dir';
 export {copy} from './copy';
-export {ensureDirExists, mkdirCyclical} from './directory';
+export {ensureDirExists, getSubdirs, mkdirCyclical} from './directory';
 export {removeForce, removeSync} from './remove';
 export {getStats, isDirectory, isDirectoryOk, chmodAllCyclical} from './common';
 export {TFileProcessCmd, ICommonOpt, ICopyOpt, ICleanDirOpt, IEnsureDirExistsOpt, IRemoveOptions} from './contract';
