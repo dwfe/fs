@@ -6,6 +6,10 @@ import {err, success, warn} from './log';
 
 export function remove(path: string, showLog?: boolean): boolean {
   validateParams(path);
+  if (!existsSync(path)) {
+    warn(`The path to remove is already not exist: "${path}"`, showLog);
+    return false;
+  }
   removeSync(path)
   if (existsSync(path)) {
     const mode = 0o666; // https://nodejs.org/api/fs.html#file-modes
@@ -15,9 +19,8 @@ export function remove(path: string, showLog?: boolean): boolean {
       err(`Unsuccessful attempt to remove "${path}" after chmod to ${mode}`, true);
       throw '';
     }
-    success(path, showLog);
-  } else
-    warn(`The path to remove is already not exist: "${path}"`);
+  }
+  success(path, showLog);
   return true;
 }
 
@@ -31,10 +34,6 @@ function removeSync(path: string): void {
 function validateParams(path: string): void {
   if (!path || !isAbsolute(path)) {
     err(`The path must be absolute: "${path}"`, true);
-    throw '';
-  }
-  if (!existsSync(path)) {
-    err(`Path doesn't exist: "${path}"`, true);
     throw '';
   }
 }
