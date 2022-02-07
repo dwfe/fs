@@ -2,7 +2,7 @@ import {existsSync, rmSync} from 'fs';
 import {isAbsolute} from 'path';
 import {chmodAllCyclical} from '../common';
 import {isDirectory} from '../directory';
-import {err, success} from './log';
+import {err, success, warn} from './log';
 
 export function remove(path: string, showLog?: boolean): boolean {
   validateParams(path);
@@ -15,8 +15,9 @@ export function remove(path: string, showLog?: boolean): boolean {
       err(`Unsuccessful attempt to remove "${path}" after chmod to ${mode}`, true);
       throw '';
     }
-  }
-  success(path, showLog);
+    success(path, showLog);
+  } else
+    warn(`The path to remove is already not exist: "${path}"`);
   return true;
 }
 
