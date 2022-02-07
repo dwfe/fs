@@ -1,10 +1,11 @@
 import {copyFileSync} from 'fs';
 import {basename} from 'path';
-import {ICopyOptions} from '../contract';
 import {copyLog, skipLog} from './log';
+import {ICopyOpt} from '../contract';
 
-export function copyFileToFile(srcFilePath: string, dstFilePath: string, {showLog, skipSystemFiles, allowedToCopyFilter}: ICopyOptions): number {
+export function copyFileToFile(srcFilePath: string, dstFilePath: string, opt: ICopyOpt): number {
   const srcFileName = basename(srcFilePath);
+  const {showLog, skipSystemFiles, allowedToCopyFilter} = opt;
 
   if (skipSystemFiles && skipSystemFilesFilter(srcFileName)) {
     skipLog(`The system file: ${srcFileName} from "${srcFilePath}"`, showLog);
@@ -15,7 +16,7 @@ export function copyFileToFile(srcFilePath: string, dstFilePath: string, {showLo
     return 0;
   }
 
-  copyLog(srcFilePath, dstFilePath, showLog);
+  copyLog(srcFilePath, dstFilePath, opt);
   copyFileSync(srcFilePath, dstFilePath);
   return 1;
 }

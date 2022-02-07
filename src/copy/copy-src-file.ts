@@ -1,15 +1,17 @@
 import {basename, dirname, extname, join} from 'path';
 import {existsSync} from 'fs';
 import {copyFileToFile} from './copy-file-to-file';
-import {ensureDirExists, isDirectory} from '../directory';
-import {ICopyOptions} from '../contract';
+import {isDirectory} from '../common';
+import {ICopyOpt} from '../contract';
 import {err, warn} from './log';
+import {ensureDirExists} from '../directory/ensure-dir-exists';
 
-export function copySrcFile(src: string, dst: string, opt: ICopyOptions) {
+export function copySrcFile(src: string, dst: string, opt: ICopyOpt): number {
   handleExt(src, dst, opt);
   if (existsSync(dst)) {
-    if (isDirectory(dst))
+    if (isDirectory(dst)) {
       dst = join(dst, basename(src)); // now dst points to the target file in the existing directory
+    }
   } else {
     const dstDirPath = dirname(dst);    // here it is assumed that dst points to the target file,
     if (!ensureDirExists(dstDirPath)) { // make sure that the target directory exists
@@ -20,7 +22,8 @@ export function copySrcFile(src: string, dst: string, opt: ICopyOptions) {
   return copyFileToFile(src, dst, opt);
 }
 
-function handleExt(src: string, dst: string, {showLog}: ICopyOptions): void {
+function handleExt(src: string, dst: string, opt: ICopyOpt): void {
+  const {showLog} = opt;
   const dstExt = extname(dst);
   if (extname(src) !== dstExt) {
     /**
@@ -40,7 +43,7 @@ function handleExt(src: string, dst: string, {showLog}: ICopyOptions): void {
       if (!existsSync(dst) || !isDirectory(dst))
         diffExtMessage();
     } else {
-      if (!ensureDirExists(dst, () => warn(`Created a dir, assuming that dst "${dst}" is a dir`, showLog)))
+      if (!ensureDirExists(dst, {afterCreatingDir: () => warn(`Created a dir, assuming that dst "${dst}" is a dir`, showLog)}))
         diffExtMessage();
     }
   }

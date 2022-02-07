@@ -1,10 +1,9 @@
 import {isAbsolute} from 'path';
 import {existsSync} from 'fs';
+import {getStats, isDirectory} from '../common';
 import {copySrcFile} from './copy-src-file';
 import {copySrcDir} from './copy-src-dir';
-import {ICopyOptions} from '../contract';
-import {isDirectory} from '../directory';
-import {getStats} from '../common';
+import {ICopyOpt} from '../contract';
 import {err} from './log';
 
 /**
@@ -13,14 +12,15 @@ import {err} from './log';
  * @param opt
  * @Returns count of copied files
  */
-export function copy(src: string, dst: string, opt: ICopyOptions = {}): number {
-  validateParams(src, dst);
-  return isDirectory(src)
+export function copy(src: string, dst: string, opt: ICopyOpt = {}): number {
+  opt.srcStats = getStats(src);
+  validateParams(src, dst, opt);
+  return isDirectory(src, opt.srcStats)
     ? copySrcDir(src, dst, opt)
     : copySrcFile(src, dst, opt);
 }
 
-function validateParams(src: string, dst: string): void {
+function validateParams(src: string, dst: string, {srcStats}: ICopyOpt): void {
   if (!src || !isAbsolute(src)) {
     err(`The path to src must be absolute: "${src}"`, true);
     throw '';
@@ -33,12 +33,11 @@ function validateParams(src: string, dst: string): void {
     err(`src doesn't exist: "${src}"`, true);
     throw '';
   }
-  const srcStats = getStats(src);
-  if (srcStats.isSocket()) {
+  if (srcStats?.isSocket()) {
     err(`Can't copy a socket file: ${src}`, true);
     throw '';
   }
-  if (srcStats.isFIFO()) {
+  if (srcStats?.isFIFO()) {
     err(`Can't copy a first-in-first-out (FIFO) pipe: ${src}`, true);
     throw '';
   }

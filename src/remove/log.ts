@@ -1,10 +1,6 @@
-import {logErr, logSuccess, logWarn} from '@do-while-for-each/log-node';
+import {logErr, logSuccess} from '@do-while-for-each/log-node';
 
 const title = 'Remove:';
-
-export function warn(message: string, showLog?: boolean): void {
-  showLog && logWarn(title, message);
-}
 
 export function err(message: string, showLog?: boolean): void {
   showLog && logErr(title, message);
