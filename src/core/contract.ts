@@ -1,6 +1,6 @@
 import {Dirent, Stats} from 'fs';
 
-export type TFileProcessCmd = 'clean-dir' | 'copy' | 'move' | 'remove';
+export type TFileProcessCmd = 'rmForce' | 'cp' | 'mv' | 'cleanDir';
 
 export interface ICommonOpt {
   showLog?: boolean;

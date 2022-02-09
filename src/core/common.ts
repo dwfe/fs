@@ -55,3 +55,24 @@ export function chmodCyclical(path: string, mode: number, stats?: Stats | Dirent
     });
   }
 }
+
+export function validateSrc(src: string): void {
+  const title = 'Validate src:';
+  if (!src || !isAbsolute(src)) {
+    logErr(title, `The path to src must be absolute: "${src}"`);
+    throw '';
+  }
+  if (!existsSync(src)) {
+    logErr(title, `src doesn't exist: "${src}"`);
+    throw '';
+  }
+  const srcStats = getStats(src);
+  if (srcStats?.isSocket()) {
+    logErr(title, `Can't process src as socket file: "${src}"`);
+    throw '';
+  }
+  if (srcStats?.isFIFO()) {
+    logErr(title, `Can't process src as first-in-first-out (FIFO) pipe: "${src}"`);
+    throw '';
+  }
+}
