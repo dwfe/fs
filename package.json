@@ -32,7 +32,7 @@
     "deploy": "npm version patch && npm publish"
   },
   "dependencies": {
-    "@do-while-for-each/log-node": "^1.0.2"
+    "@do-while-for-each/log-node": "^1.0.4"
   },
   "devDependencies": {
     "@types/node": "^16.11.22"
