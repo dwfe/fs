@@ -5,19 +5,14 @@ import {ICommonOpt, IValidateOpt} from './contract';
 import {getStats, isDirectory} from './common';
 
 
-export function isDirectoryOk(path: string, {stats, showLog, skipExistsCheck}: ICommonOpt & IValidateOpt = {}): boolean {
+export function isDirectoryOk(path: string, {stats, showLog}: ICommonOpt = {}): boolean {
   const title = 'Directory check:';
-  if (!path || !isAbsolute(path)) {
-    showLog && logErr(title, `The dir path must be absolute: "${path}"`);
+  if (!path || !isAbsolute(path) || !existsSync(path)) {
+    showLog && logErr(title, `The dir path must be absolute and exist: "${path}"`);
     return false;
   }
-  if (existsSync(path)) {
-    if (!isDirectory(path, stats)) {
-      showLog && logErr(title, `The path must point to the directory: "${path}"`);
-      return false;
-    }
-  } else if (!skipExistsCheck) {
-    showLog && logErr(title, `The dir path doesn't exist: "${path}"`);
+  if (!isDirectory(path, stats)) {
+    showLog && logErr(title, `The path must point to the directory: "${path}"`);
     return false;
   }
   return true;

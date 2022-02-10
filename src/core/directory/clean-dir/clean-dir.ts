@@ -1,11 +1,11 @@
 import {readdirSync} from 'fs';
 import {join} from 'path';
-import {ICleanDirOpt, IValidateOpt} from '../../contract';
 import {isDirectoryOk} from '../../validator';
+import {ICleanDirOpt} from '../../contract';
 import {removeForce} from '../../remove';
 
-export function cleanDir(path: string, {fileNamesToRemove, allowedToRemoveFilter, stats, showLog, skipExistsCheck}: ICleanDirOpt & IValidateOpt = {}): boolean {
-  if (!isDirectoryOk(path, {stats, showLog, skipExistsCheck}))
+export function cleanDir(path: string, {fileNamesToRemove, allowedToRemoveFilter, stats, showLog}: ICleanDirOpt = {}): boolean {
+  if (!isDirectoryOk(path, {stats, showLog}))
     return false;
   readdirSync(path, {withFileTypes: true}).forEach(stats => {
     const fileName = stats.name;
