@@ -25,7 +25,7 @@ export class FileProcess {
           return;
         case 'cleanDir':
           validateSrc(src);
-          cleanDir(src, {showLog});
+          cleanDir(src, {showLog, skipCheck: true});
           return;
         default:
           logErr('FileProcess:', `Unknown command "${cmd}"`);

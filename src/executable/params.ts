@@ -1,5 +1,5 @@
-import {TOptions} from './contract';
 import {isAbsolute, join} from 'path';
+import {TOptions} from './contract';
 
 //region File paths
 

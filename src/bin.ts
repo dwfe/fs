@@ -9,4 +9,6 @@ const src = normalizePath(ARGS[1]);
 const dst = normalizePath(ARGS[1]);
 const showLog = !findArg('--hideLog');
 
-FileProcess.run([[cmd, [src, dst], showLog]])
+FileProcess.run([
+  [cmd, [src, dst], showLog]
+]);

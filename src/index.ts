@@ -6,4 +6,3 @@ export {TFileProcessCmd, ICommonOpt, ICopyOpt, ICleanDirOpt, IEnsureDirExistsOpt
 export {FileJson} from './core/file.json';
 export {FileProcess} from './core/file.process';
 export {move} from './core/move';
-
