@@ -27,6 +27,6 @@ export interface IRemoveOptions extends ICommonOpt {
 }
 
 
-export interface IValidateSrcOpt {
+export interface IValidateOpt {
   skipExistsCheck?: boolean;
 }

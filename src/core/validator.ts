@@ -1,24 +1,29 @@
 import {logErr} from '@do-while-for-each/log-node';
 import {isAbsolute} from 'path';
 import {existsSync} from 'fs';
-import {ICommonOpt, IValidateSrcOpt} from './contract';
+import {ICommonOpt, IValidateOpt} from './contract';
 import {getStats, isDirectory} from './common';
 
 
-export function isDirectoryOk(path: string, {stats, showLog}: ICommonOpt = {}): boolean {
+export function isDirectoryOk(path: string, {stats, showLog, skipExistsCheck}: ICommonOpt & IValidateOpt = {}): boolean {
   const title = 'Directory check:';
-  if (!path || !isAbsolute(path) || !existsSync(path)) {
-    showLog && logErr(title, `The dir path must be absolute and exist: "${path}"`);
+  if (!path || !isAbsolute(path)) {
+    showLog && logErr(title, `The dir path must be absolute: "${path}"`);
     return false;
   }
-  if (!isDirectory(path, stats)) {
-    showLog && logErr(title, `The path must point to the directory: "${path}"`);
+  if (existsSync(path)) {
+    if (!isDirectory(path, stats)) {
+      showLog && logErr(title, `The path must point to the directory: "${path}"`);
+      return false;
+    }
+  } else if (!skipExistsCheck) {
+    showLog && logErr(title, `The dir path doesn't exist: "${path}"`);
     return false;
   }
   return true;
 }
 
-export function validateSrc(src: string, {skipExistsCheck}: IValidateSrcOpt = {}): void {
+export function validateSrc(src: string, {skipExistsCheck}: IValidateOpt = {}): void {
   const title = 'Validate src:';
   if (!src || !isAbsolute(src)) {
     logErr(title, `The path to src must be absolute: "${src}"`);
