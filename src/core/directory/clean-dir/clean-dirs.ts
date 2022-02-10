@@ -1,5 +1,5 @@
+import {isDirectoryOk} from '../../validator';
 import {ICleanDirOpt} from '../../contract';
-import {isDirectoryOk} from '../../common';
 import {cleanDir} from './clean-dir';
 import {action, err} from './log';
 

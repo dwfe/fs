@@ -1,8 +1,9 @@
 import {logErr} from '@do-while-for-each/log-node';
+import {existsSync} from 'fs';
 import {TFileProcessCmd} from './contract';
+import {validateSrc} from './validator';
 import {cleanDir} from './directory';
 import {removeForce} from './remove';
-import {validateSrc} from './common';
 import {copy} from './copy';
 import {move} from './move';
 
@@ -12,8 +13,9 @@ export class FileProcess {
     tasks.forEach(([cmd, [src, dest], showLog]) => {
       switch (cmd) {
         case 'rmForce':
-          validateSrc(src);
-          removeForce(src, {showLog});
+          validateSrc(src, {skipExistsCheck: true});
+          if (existsSync(src))
+            removeForce(src, {showLog});
           return;
         case 'cp':
           copy(src, dest as string, {showLog});

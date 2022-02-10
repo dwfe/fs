@@ -1,8 +1,9 @@
 import {basename, join} from 'path';
 import {readdirSync} from 'fs';
-import {isDirectory, isDirectoryOk} from '../common';
 import {copyFileToFile} from './copy-file-to-file';
 import {ensureDirExists} from '../directory';
+import {isDirectoryOk} from '../validator';
+import {isDirectory} from '../common';
 import {ICopyOpt} from '../contract';
 import {copyLog, err} from './log';
 

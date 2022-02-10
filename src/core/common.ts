@@ -1,7 +1,5 @@
-import {chmodSync, Dirent, existsSync, lstatSync, readdirSync, Stats} from 'fs';
-import {logErr} from '@do-while-for-each/log-node';
-import {isAbsolute, join} from 'path';
-import {ICommonOpt} from './contract';
+import {chmodSync, Dirent, lstatSync, readdirSync, Stats} from 'fs';
+import {join} from 'path';
 
 export function getStats(path: string): Stats {
   return lstatSync(path);
@@ -9,19 +7,6 @@ export function getStats(path: string): Stats {
 
 export function isDirectory(path: string, stats?: Stats | Dirent): boolean {
   return (stats || getStats(path)).isDirectory();
-}
-
-export function isDirectoryOk(path: string, {stats, showLog}: ICommonOpt = {}): boolean {
-  const title = 'Directory check:';
-  if (!path || !isAbsolute(path) || !existsSync(path)) {
-    showLog && logErr(title, `The dir path must be absolute and exist: "${path}"`);
-    return false;
-  }
-  if (!isDirectory(path, stats)) {
-    showLog && logErr(title, `The path must point to the directory: "${path}"`);
-    return false;
-  }
-  return true;
 }
 
 /**
@@ -53,26 +38,5 @@ export function chmodCyclical(path: string, mode: number, stats?: Stats | Dirent
     readdirSync(path, {withFileTypes: true}).forEach(stats => {
       chmodCyclical(join(path, stats.name), mode, stats);
     });
-  }
-}
-
-export function validateSrc(src: string): void {
-  const title = 'Validate src:';
-  if (!src || !isAbsolute(src)) {
-    logErr(title, `The path to src must be absolute: "${src}"`);
-    throw '';
-  }
-  if (!existsSync(src)) {
-    logErr(title, `src doesn't exist: "${src}"`);
-    throw '';
-  }
-  const srcStats = getStats(src);
-  if (srcStats?.isSocket()) {
-    logErr(title, `Can't process src as socket file: "${src}"`);
-    throw '';
-  }
-  if (srcStats?.isFIFO()) {
-    logErr(title, `Can't process src as first-in-first-out (FIFO) pipe: "${src}"`);
-    throw '';
   }
 }

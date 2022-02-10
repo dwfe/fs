@@ -1,7 +1,8 @@
 import {isAbsolute} from 'path';
-import {isDirectory, validateSrc} from '../common';
 import {copySrcFile} from './copy-src-file';
 import {copySrcDir} from './copy-src-dir';
+import {validateSrc} from '../validator';
+import {isDirectory} from '../common';
 import {ICopyOpt} from '../contract';
 import {err} from './log';
 

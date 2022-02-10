@@ -25,3 +25,8 @@ export interface IEnsureDirExistsOpt extends ICommonOpt {
 export interface IRemoveOptions extends ICommonOpt {
   force?: boolean;
 }
+
+
+export interface IValidateSrcOpt {
+  skipExistsCheck?: boolean;
+}
