@@ -13,7 +13,7 @@ export interface ICopyOpt extends ICommonOpt {
   srcStats?: Stats | Dirent;
 }
 
-export interface ICleanDirOpt extends ICommonOpt {
+export interface ICleanDirOpt extends ICommonOpt, IValidateOpt {
   fileNamesToRemove?: string[];
   allowedToRemoveFilter?: (nextFileName: string, path: string) => boolean;
 }
