@@ -9,7 +9,7 @@ export function cleanDirs(dirPaths: string[], opt: ICleanDirOpt = {}): void {
   const startTime = +new Date();
   dirPaths.forEach(path => {
     action(`Cleaning dir ${path}`, showLog);
-    cleanDir(path, opt);
+    cleanDir(path, {...opt, skipCheck: true});
   });
   action(`Spent time: ${(+new Date() - startTime) / 1000} sec.`, showLog);
 }

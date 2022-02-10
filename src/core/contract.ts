@@ -28,5 +28,6 @@ export interface IRemoveOptions extends ICommonOpt {
 
 
 export interface IValidateOpt {
+  skipCheck?: boolean;
   skipExistsCheck?: boolean;
 }
