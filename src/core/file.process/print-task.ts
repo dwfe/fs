@@ -17,6 +17,10 @@ export function printTask([cmd, [src, dst], {showLog, dirPaths, fileNames, print
       break;
     case 'cleanDir':
       logOption('path', src);
+      if (fileNames)
+        logOption('fileNamesToRemove', fileNames, false);
+      else
+        logOption('fileNamesToRemove', '');
       break;
     case 'cleanDirs':
       if (dirPaths)

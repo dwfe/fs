@@ -28,7 +28,7 @@ export class FileProcess {
           return;
         case 'cleanDir':
           validateSrc(src);
-          cleanDir(src, {showLog, skipCheck: true});
+          cleanDir(src, {showLog, fileNamesToRemove: fileNames, skipCheck: true});
           return;
         case 'cleanDirs':
           cleanDirs(dirPaths as string[], {showLog, fileNamesToRemove: fileNames});
