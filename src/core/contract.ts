@@ -1,7 +1,5 @@
 import {Dirent, Stats} from 'fs';
 
-export type TFileProcessCmd = 'rmForce' | 'cp' | 'mv' | 'cleanDir';
-
 export type TStats = Stats | Dirent;
 
 export interface ICommonOpt {
@@ -33,3 +31,18 @@ export interface IValidateOpt {
   skipCheck?: boolean;
   skipExistsCheck?: boolean;
 }
+
+
+//region FileProcess
+
+export type TFileProcessCmd = 'rmForce' | 'cp' | 'mv' | 'cleanDir' | 'cleanDirs';
+
+export interface IFileProcessOpt extends ICommonOpt {
+  dirPaths?: string[];
+  fileNames?: string[];
+  printParams?: boolean;
+}
+
+export type TFileProcessTask = [TFileProcessCmd, [string, string?], IFileProcessOpt];
+
+//endregion

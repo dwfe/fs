@@ -1,14 +1,25 @@
 #!/usr/bin/env node
 
-import {ARGS, findArg, normalizePath} from './executable/params';
-import {FileProcess} from './core/file.process';
-import {TFileProcessCmd} from './core/contract';
+import {logAction} from '@do-while-for-each/log-node';
+import {FileProcess, printTask} from './core/file.process';
+import {parseArgs} from './executable/parse-args';
+import {TFileProcessTask} from './core/contract';
+import {question} from './executable/confirm';
 
-const cmd = ARGS[0] as TFileProcessCmd;
-const src = normalizePath(ARGS[1]);
-const dst = normalizePath(ARGS[1]);
-const showLog = !findArg('--hideLog');
+const {cmd, src, dst, showLog, dirPaths, fileNames, needToConfirm, printParams} = parseArgs();
 
-FileProcess.run([
-  [cmd, [src, dst], showLog]
-]);
+const task: TFileProcessTask = [cmd, [src, dst], {showLog, dirPaths, fileNames, printParams}];
+printTask(task);
+task[2].printParams = false;
+
+const run = () => FileProcess.run([task]);
+
+if (needToConfirm) {
+  question('Do you want to continue? [y/n] ', answer => {
+    if (answer === 'y')
+      run();
+    else
+      logAction(`skip "${cmd}"`);
+  })
+} else
+  run();

@@ -25,14 +25,14 @@
     "README.md"
   ],
   "scripts": {
-    "build": "dwfeFs rmForce dist && tsc -b src/tsconfig.json",
+    "build": "dwfeFs rmForce dist --noConfirm && tsc -b src/tsconfig.json",
     "types": "tsc -b config/tsconfig.types.json",
     "version": "npm run build && npm run types",
     "postversion": "git push",
     "deploy": "npm version patch && npm publish"
   },
   "dependencies": {
-    "@do-while-for-each/log-node": "^1.0.4"
+    "@do-while-for-each/log-node": "^1.0.7"
   },
   "devDependencies": {
     "@types/node": "^16.11.22"
