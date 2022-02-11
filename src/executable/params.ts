@@ -27,7 +27,7 @@ export function relativeToBase(...paths: string[]): string {
 }
 
 export function normalizePath(path: string): string {
-  if (path && !isAbsolute(path))
+  if (path && !isAbsolute(path) || path === '')
     return relativeToBase(path);
   return path;
 }
