@@ -1,4 +1,4 @@
-import {existsSync, PathLike, readFileSync, writeFileSync} from 'fs'
+import {existsSync, PathLike, readFileSync, writeFileSync} from 'fs';
 
 export class FileJson {
 

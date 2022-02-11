@@ -16,8 +16,7 @@ export function mkdirCyclical(targetDirPath: string): string[] {
     }
   }
   childrenToCreate.forEach(dirName => {
-    path = join(path, dirName);
-    mkdirSync(path);
+    mkdirSync(join(path, dirName));
   });
   return childrenToCreate;
 }

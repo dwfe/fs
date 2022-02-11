@@ -2,15 +2,17 @@ import {Dirent, Stats} from 'fs';
 
 export type TFileProcessCmd = 'rmForce' | 'cp' | 'mv' | 'cleanDir';
 
+export type TStats = Stats | Dirent;
+
 export interface ICommonOpt {
   showLog?: boolean;
-  stats?: Stats | Dirent;
+  stats?: TStats;
 }
 
 export interface ICopyOpt extends ICommonOpt {
   skipSystemFiles?: boolean; // Thumbs.db, .DS_Store
   allowedToCopyFilter?: (nextSrcFileName: string, srcFilePath: string, dstFilePath: string) => boolean;
-  srcStats?: Stats | Dirent;
+  srcStats?: TStats;
 }
 
 export interface ICleanDirOpt extends ICommonOpt, IValidateOpt {
