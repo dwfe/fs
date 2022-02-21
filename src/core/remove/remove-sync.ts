@@ -5,7 +5,7 @@ import {IRemoveOptions} from '../contract';
 export function removeSync(path: string, {force, stats}: IRemoveOptions): void {
   stats = stats || getStats(path);
   if (isSymbolicLink(path, stats))
-    unlinkSync(path)
+    unlinkSync(path);
   else
     rmSync(path, {
       recursive: isDirectory(path, stats),
