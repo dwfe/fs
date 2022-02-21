@@ -22,7 +22,7 @@ export interface IEnsureDirExistsOpt extends ICommonOpt {
   afterCreatingDir?: () => void;
 }
 
-export interface IRemoveOptions extends ICommonOpt {
+export interface IRemoveOpt extends ICommonOpt {
   force?: boolean;
 }
 

@@ -1,10 +1,10 @@
 import {existsSync} from 'fs';
-import {IRemoveOptions} from '../contract';
 import {removeSync} from './remove-sync';
 import {chmodCyclical} from '../common';
+import {IRemoveOpt} from '../contract';
 import {err, success} from './log';
 
-export function removeForce(path: string, {stats, showLog}: IRemoveOptions) {
+export function removeForce(path: string, {stats, showLog}: IRemoveOpt) {
   removeSync(path, {force: true, stats});
   if (existsSync(path)) {
     const mode = 0o600;
