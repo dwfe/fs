@@ -1,10 +1,14 @@
-import {rmSync} from 'fs';
+import {rmSync, unlinkSync} from 'fs';
+import {getStats, isDirectory, isSymbolicLink} from '../common';
 import {IRemoveOptions} from '../contract';
-import {isDirectory} from '../common';
 
 export function removeSync(path: string, {force, stats}: IRemoveOptions): void {
-  rmSync(path, {
-    recursive: isDirectory(path, stats),
-    force: !!force
-  });
+  stats = stats || getStats(path);
+  if (isSymbolicLink(path, stats))
+    unlinkSync(path)
+  else
+    rmSync(path, {
+      recursive: isDirectory(path, stats),
+      force: !!force
+    });
 }

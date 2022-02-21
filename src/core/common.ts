@@ -10,6 +10,10 @@ export function isDirectory(path: string, stats?: TStats): boolean {
   return (stats || getStats(path)).isDirectory();
 }
 
+export function isSymbolicLink(path: string, stats?: TStats): boolean {
+  return (stats || getStats(path)).isSymbolicLink();
+}
+
 /**
  * Change permissions of a file.
  *   https://nodejs.org/api/fs.html#file-modes
