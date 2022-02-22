@@ -11,11 +11,15 @@ export function copyFileToFile(srcFilePath: string, dstFilePath: string, opt: IC
     skipLog(`The system file: ${srcFileName} from "${srcFilePath}"`, showLog);
     return 0;
   }
-  if (allowedToCopyFilter && !allowedToCopyFilter(srcFileName, srcFilePath, dstFilePath)) {
+  if (allowedToCopyFilter && !allowedToCopyFilter({
+    iSrcFileName: srcFileName,
+    iSrcFilePath: srcFilePath,
+    iDstFilePath: dstFilePath,
+    iStats: opt.stats
+  })) {
     skipLog(`allowedToCopyFilter: ${srcFileName} from "${srcFilePath}"`, showLog);
     return 0;
   }
-
   copyLog(srcFilePath, dstFilePath, opt);
   copyFileSync(srcFilePath, dstFilePath);
   return 1;

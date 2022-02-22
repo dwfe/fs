@@ -9,13 +9,20 @@ export interface ICommonOpt {
 
 export interface ICopyOpt extends ICommonOpt {
   skipSystemFiles?: boolean; // Thumbs.db, .DS_Store
-  allowedToCopyFilter?: (nextSrcFileName: string, srcFilePath: string, dstFilePath: string) => boolean;
+  allowedToCopyFilter?: (args: IAllowedToCopyCallbackArgs) => boolean;
   srcStats?: TStats;
+}
+
+export interface IAllowedToCopyCallbackArgs {
+  iSrcFileName: string;
+  iSrcFilePath: string;
+  iDstFilePath: string;
+  iStats?: TStats;
 }
 
 export interface ICleanDirOpt extends ICommonOpt, IValidateOpt {
   fileNamesToRemove?: string[];
-  allowedToRemoveFilter?: (nextFileName: string, path: string) => boolean;
+  allowedToRemoveFilter?: (args: ITraverseDirCallbackArgs) => boolean;
 }
 
 export interface IEnsureDirExistsOpt extends ICommonOpt {

@@ -8,13 +8,12 @@ export function cleanDir(path: string, opt: ICleanDirOpt = {}): boolean {
     return false;
   const {fileNamesToRemove, allowedToRemoveFilter, showLog} = opt;
   traverseDir(path, {
-    callback: ({iStats, iFilePath, iPath}) => {
-      const fileName = iStats.name;
-      if (fileNamesToRemove && !fileNamesToRemove.includes(fileName))
+    callback: args => {
+      if (fileNamesToRemove && !fileNamesToRemove.includes(args.iStats.name))
         return;
-      if (allowedToRemoveFilter && !allowedToRemoveFilter(fileName, iPath))
+      if (allowedToRemoveFilter && !allowedToRemoveFilter(args))
         return;
-      removeForce(iFilePath, {stats: iStats, showLog});
+      removeForce(args.iFilePath, {stats: args.iStats, showLog});
     },
     maxLevel: 1
   });
