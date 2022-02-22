@@ -64,8 +64,8 @@ export interface ITraverseDirOpt {
 
 export interface ITraverseDirCallbackArgs {
   iFilePath: string;
-  iStats: Dirent;
   iPath: string;
+  iStats: Dirent;
 }
 
 //endregion
