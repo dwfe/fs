@@ -1,20 +1,22 @@
-import {readdirSync} from 'fs';
-import {join} from 'path';
 import {isDirectoryOk} from '../../validator';
 import {ICleanDirOpt} from '../../contract';
+import {traverseDir} from '../traverse-dir';
 import {removeForce} from '../../remove';
 
 export function cleanDir(path: string, opt: ICleanDirOpt = {}): boolean {
   if (!isParamsOk(path, opt))
     return false;
   const {fileNamesToRemove, allowedToRemoveFilter, showLog} = opt;
-  readdirSync(path, {withFileTypes: true}).forEach(stats => {
-    const fileName = stats.name;
-    if (fileNamesToRemove && !fileNamesToRemove.includes(fileName))
-      return;
-    if (allowedToRemoveFilter && !allowedToRemoveFilter(fileName, path))
-      return;
-    removeForce(join(path, fileName), {stats, showLog});
+  traverseDir(path, {
+    callback: ({iStats, iFilePath, iPath}) => {
+      const fileName = iStats.name;
+      if (fileNamesToRemove && !fileNamesToRemove.includes(fileName))
+        return;
+      if (allowedToRemoveFilter && !allowedToRemoveFilter(fileName, iPath))
+        return;
+      removeForce(iFilePath, {stats: iStats, showLog});
+    },
+    maxLevel: 1
   });
   return true;
 }

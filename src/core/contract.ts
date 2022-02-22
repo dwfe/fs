@@ -46,3 +46,19 @@ export interface IFileProcessOpt extends ICommonOpt {
 export type TFileProcessTask = [TFileProcessCmd, [string, string?], IFileProcessOpt];
 
 //endregion
+
+
+//region TraverseDir
+
+export interface ITraverseDirOpt {
+  callback: (args: ITraverseDirCallbackArgs) => void;
+  maxLevel: number;
+}
+
+export interface ITraverseDirCallbackArgs {
+  iFilePath: string;
+  iStats: Dirent;
+  iPath: string;
+}
+
+//endregion

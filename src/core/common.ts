@@ -1,5 +1,5 @@
-import {chmodSync, lstatSync, readdirSync, Stats} from 'fs';
-import {join} from 'path';
+import {chmodSync, lstatSync, Stats} from 'fs';
+import {traverseDir} from './directory';
 import {TStats} from './contract';
 
 export function getStats(path: string): Stats {
@@ -40,8 +40,9 @@ export function isSymbolicLink(path: string, stats?: TStats): boolean {
 export function chmodCyclical(path: string, mode: number, stats?: TStats): void {
   chmodSync(path, mode);
   if (isDirectory(path, stats)) {
-    readdirSync(path, {withFileTypes: true}).forEach(stats => {
-      chmodCyclical(join(path, stats.name), mode, stats);
+    traverseDir(path, {
+      callback: args => chmodSync(args.iFilePath, mode),
+      maxLevel: Infinity
     });
   }
 }

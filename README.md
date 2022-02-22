@@ -1,7 +1,7 @@
 # Utils
 
 - `copy`, `move`
-- `cleanDir`, `cleanDirs`, `ensureDirExists`, `getSubdirs`, `mkdirCyclical`
+- `cleanDir`, `cleanDirs`, `ensureDirExists`, `getSubdirs`, `mkdirCyclical`, `traverseDir`
 - `removeForce`, `removeSync`
 - `getStats`, `isDirectory`, `chmodCyclical`
 - `FileProcess`, `FileJson`

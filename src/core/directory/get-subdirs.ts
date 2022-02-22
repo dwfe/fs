@@ -1,18 +1,19 @@
-import {readdirSync} from 'fs';
-import {join} from 'path';
+import {traverseDir} from './traverse-dir';
 import {isDirectory} from '../common';
 
-export const getSubdirs = (dirPaths: string | string[]): string[] => (
+export const getSubdirs = (dirPaths: string | string[], maxLevel = 1): string[] => (
   (Array.isArray(dirPaths) ? dirPaths : [dirPaths])
-    .map(dirPath => {
-      if (isDirectory(dirPath))
-        return readdirSync(dirPath, {withFileTypes: true})
-          .map(stats => {
-            if (stats.isDirectory())
-              return join(dirPath, stats.name)
-          })
-          .filter(Boolean);
+    .map(path => {
+      const dirs: string[] = [];
+      if (isDirectory(path))
+        traverseDir(path, {
+          callback: args => {
+            if (args.iStats.isDirectory())
+              dirs.push(args.iFilePath);
+          },
+          maxLevel
+        });
+      return dirs;
     })
-    .filter(Boolean)
-    .flat() as string[]
+    .flat()
 );
