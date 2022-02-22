@@ -13,8 +13,9 @@ function traverse(path: string, level: number, opt: ITraverseDirOpt): void {
   const nextLevel = level + 1;
   readdirSync(path, {withFileTypes: true}).forEach(iStats => {
     const iFilePath = join(path, iStats.name);
+    const needToTraverse = isDirectory(iFilePath, iStats) && opt.maxLevel >= nextLevel;
     opt.callback({iFilePath, iStats, iPath: path});
-    if (isDirectory(iFilePath) && opt.maxLevel >= nextLevel)
+    if (needToTraverse)
       traverse(iFilePath, nextLevel, opt);
   });
 }
