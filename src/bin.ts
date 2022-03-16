@@ -6,9 +6,9 @@ import {parseArgs} from './executable/parse-args';
 import {TFileProcessTask} from './core/contract';
 import {question} from './executable/confirm';
 
-const {cmd, src, dst, showLog, dirPaths, fileNames, needToConfirm, printParams} = parseArgs();
+const {cmd, src, dst, dirPaths, fileNames, needToConfirm, printParams, showLog} = parseArgs();
 
-const task: TFileProcessTask = [cmd, [src, dst], {showLog, dirPaths, fileNames, printParams}];
+const task: TFileProcessTask = [cmd, [src, dst], {dirPaths, fileNames, printParams, showLog}];
 printTask(task);
 task[2].printParams = false;
 

@@ -1,5 +1,6 @@
 import {ARGS, findArg, getPathArg, normalizePath, parseOptValue} from './params';
 import {TFileProcessCmd} from '../core/contract';
+import {getSubdirs} from '../core/directory';
 
 export function parseArgs() {
   const needToConfirm = !findArg('--noConfirm');
@@ -8,9 +9,19 @@ export function parseArgs() {
     src: getPathArg(1),
     dst: getPathArg(2),
     showLog: !findArg('--hideLog'),
-    dirPaths: parseOptValue('--dirPaths').map(dirPath => normalizePath(dirPath)),
+    dirPaths: parseDirPaths(),
     fileNames: parseOptValue('--fileNames'),
     needToConfirm,
     printParams: needToConfirm ? true : !findArg('--noPrintParams')
   };
+}
+
+function parseDirPaths(): string[] {
+  return parseOptValue('--dirPaths').map(dirPath => {
+    const hasMaskAll = dirPath.endsWith('*');
+    if (hasMaskAll)
+      dirPath = dirPath.replaceAll('*', '');
+    dirPath = normalizePath(dirPath);
+    return hasMaskAll ? getSubdirs(dirPath) : dirPath;
+  }).flat();
 }
