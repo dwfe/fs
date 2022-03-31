@@ -11,7 +11,7 @@ export function removeForce(path: string, {stats, showLog}: IRemoveOpt) {
     chmodCyclical(path, mode);
     removeSync(path, {force: true});
     if (existsSync(path)) {
-      err(`Unsuccessful attempt to remove after cyclical chmod to ${Number(mode).toString(8)}: "${path}"`, true);
+      err(`Unsuccessful attempt to remove after cyclical chmod to 0o${Number(mode).toString(8)}: "${path}"`, true);
       throw '';
     }
   }
