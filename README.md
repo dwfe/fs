@@ -32,13 +32,13 @@ dwfeFs cmd src [dst] [--dirPaths] [--fileNames] [--noPrintParams] [--noConfirm] 
     generator
 ```
 
-Команда:
+Command:
 
 ```shell
 dwfeFs cleanDirs --dirPaths=";apps/*;packages/*;server/*" --fileNames="dist;node_modules;package-lock.json"
 ```
 
-Will remove from directories: `./`, `./apps/account`, `./apps/admin`, `./packages/api`, `./packages/client-auth`, `./server/regress`, `./server/regress`  
+will remove from directories: `./`, `./apps/account`, `./apps/admin`, `./packages/api`, `./packages/client-auth`, `./server/regress`, `./server/regress`  
 files with the following names: `dist`, `node_modules`, `package-lock.json`.
 
 # TODO
