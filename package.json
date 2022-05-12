@@ -38,6 +38,7 @@
     "deploy": "npm version patch && npm publish"
   },
   "dependencies": {
+    "@do-while-for-each/common": "^1.2.16",
     "@do-while-for-each/log-node": "^1.0.9"
   },
   "devDependencies": {

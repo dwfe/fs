@@ -1,3 +1,4 @@
+import {strMillisecToMinWithSec} from '@do-while-for-each/common'
 import {isDirectoryOk} from '../../validator';
 import {ICleanDirOpt} from '../../contract';
 import {cleanDir} from './clean-dir';
@@ -11,7 +12,7 @@ export function cleanDirs(dirPaths: string[], opt: ICleanDirOpt = {}): void {
     action(`Cleaning dir ${path}`, showLog);
     cleanDir(path, {...opt, skipCheck: true});
   });
-  action(`Spent time: ${(+new Date() - startTime) / 1000} sec.`, showLog);
+  action(`Spent time: ${strMillisecToMinWithSec(+new Date() - startTime)}`, showLog);
 }
 
 function validateParams(dirPaths: string[], {fileNamesToRemove}: ICleanDirOpt): void {
