@@ -32,7 +32,7 @@ dwfeFs cmd src [dst] [--dirPaths] [--fileNames] [--noPrintParams] [--noConfirm] 
     generator
 ```
 
-Command:
+The command launched along the path `./`:
 
 ```shell
 dwfeFs cleanDirs --dirPaths=";apps/*;server/*" --fileNames="dist;node_modules;package-lock.json"
