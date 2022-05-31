@@ -35,10 +35,16 @@ dwfeFs cmd src [dst] [--dirPaths] [--fileNames] [--noPrintParams] [--noConfirm] 
 Command:
 
 ```shell
-dwfeFs cleanDirs --dirPaths=";apps/*;packages/*;server/*" --fileNames="dist;node_modules;package-lock.json"
+dwfeFs cleanDirs --dirPaths=";apps/*;server/*" --fileNames="dist;node_modules;package-lock.json"
 ```
 
-will remove from directories: `./`, `./apps/account`, `./apps/admin`, `./packages/api`, `./packages/client-auth`, `./server/regress`, `./server/regress`  
+will remove from directories:  
+`./`  
+`./apps/account`  
+`./apps/admin`  
+`./server/regress`  
+`./server/generator`
+
 files with the following names: `dist`, `node_modules`, `package-lock.json`.
 
 # TODO
