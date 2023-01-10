@@ -1,3 +1,9 @@
+It may be convenient to install the package globally:
+
+```shell
+npm i -g @gm/fs
+```
+
 # Utils
 
 - `copy`, `move`
