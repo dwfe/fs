@@ -31,7 +31,7 @@
     "README.md"
   ],
   "dependencies": {
-    "@do-while-for-each/common": "2.x.x",
+    "@do-while-for-each/common": "3.x.x",
     "@do-while-for-each/log-node": "1.x.x"
   },
   "devDependencies": {
